@@ -1,0 +1,25 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Praise&family=Prata&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+a.active hr {
+  display: block;
+}
+
+* {
+  font-family: Outfit;
+}
+
+.praise-regular {
+  font-family: "Praise", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.prata-regular {
+  font-family: "Prata", serif;
+  font-weight: 400;
+  font-style: normal;
+}
