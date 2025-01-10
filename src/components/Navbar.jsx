@@ -1,6 +1,7 @@
 import { Link, NavLink } from "react-router-dom";
 import { assets } from "../assets/frontend_assets/assets";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { ShopContext } from "../context/ShopContext";
 
 const links = [
   { text: "Home", href: "/" },
@@ -10,17 +11,21 @@ const links = [
 ];
 const Navbar = () => {
   const [visible, setVisible] = useState(false);
+  const { search, setShowSearch, showSearch, setSearch } =
+    useContext(ShopContext);
   return (
-    <Link
-      to={"/"}
-      className="flex items-center justify-between py-5 font-medium"
-    >
-      {/* <img src={assets.logo} className="w-36" alt="logo" /> */}
+    <div className="flex items-center justify-between font-medium">
+      <Link
+        to={"/"}
+        className="flex items-center justify-between py-5 font-medium"
+      >
+        {/* <img src={assets.logo} className="w-36" alt="logo" /> */}
 
-      <div className="relative group">
-        <h1 className="font-bold text-2xl praise-regular">FOREVER</h1>
-        <div className="rounded-full w-4 h-4 absolute bg-pink-400 bottom-0 -right-4 hover:animate-bounce"></div>
-      </div>
+        <div className="relative group">
+          <h1 className="font-bold text-2xl praise-regular">FOREVER</h1>
+          <div className="rounded-full w-4 h-4 absolute bg-pink-400 bottom-0 -right-4 hover:animate-bounce"></div>
+        </div>
+      </Link>
 
       <ul className="hidden sm:flex gap-5 text-sm text-gray-700">
         {links.map((link, i) => (
@@ -36,7 +41,14 @@ const Navbar = () => {
       </ul>
 
       <div className="flex items-center gap-6">
-        <img src={assets.search_icon} className="w-5 cursor-pointer" alt="" />
+        <img
+          src={assets.search_icon}
+          className="w-5 cursor-pointer"
+          alt=""
+          onClick={() => {
+            setShowSearch(true);
+          }}
+        />
 
         <div className="group relative">
           <img
@@ -80,7 +92,7 @@ const Navbar = () => {
             <img src={assets.dropdown_icon} className="h-4 rotate-180" alt="" />
             <p>Back</p>
           </div>
-          <div className="mx-auto flex items-center flex-col justify-center">
+          <div className="mx-auto flex gap-8 items-center flex-col justify-center">
             {links.map((link, i) => (
               <NavLink
                 to={link.href}
@@ -88,15 +100,15 @@ const Navbar = () => {
                 className=""
                 onClick={() => setVisible(!visible)}
               >
-                <p className="text-2xl flex py-4 hover:border-b-2 hover:border-black justify-center">
+                <span className="text-2xl flex py-1 justify-center">
                   {link.text}
-                </p>
+                </span>
               </NavLink>
             ))}
           </div>
         </div>
       </div>
-    </Link>
+    </div>
   );
 };
 export default Navbar;

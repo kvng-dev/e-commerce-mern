@@ -5,11 +5,12 @@ import Title from "../components/Title";
 import ProductItem from "../components/ProductItem";
 
 const Collection = () => {
-  const { products } = useContext(ShopContext);
+  const { products, search, showSearch } = useContext(ShopContext);
   const [showFilter, setShowFilter] = useState(false);
   const [filterProduct, setFilterProduct] = useState([]);
   const [category, setCategory] = useState([]);
   const [subCategory, setSubCategory] = useState([]);
+  const [sortType, setSortType] = useState("relevant");
 
   const toggleCategory = (e) => {
     if (category.includes(e.target.value)) {
@@ -27,23 +28,50 @@ const Collection = () => {
     }
   };
 
-  useEffect(() => {
-    applyFilter();
-  }, [category, subCategory]);
-
   const applyFilter = () => {
     let product = products.slice();
+
+    if (showSearch && search) {
+      product = product.filter((item) =>
+        item.name.toLowerCase().includes(search.toLowerCase())
+      );
+    }
     if (category.length > 0) {
       product = product.filter((item) => category.includes(item.category));
     }
-    if(subCategory.length > 0) {
-      product = product.filter((item) => subCategory.includes(item.subCategory));
+    if (subCategory.length > 0) {
+      product = product.filter((item) =>
+        subCategory.includes(item.subCategory)
+      );
     }
     setFilterProduct(product);
   };
+
+  const sortProduct = () => {
+    let fpCopy = filterProduct.slice();
+    switch (sortType) {
+      case "low-high":
+        setFilterProduct(fpCopy.sort((a, b) => a.price - b.price));
+        break;
+      case "high-low":
+        setFilterProduct(fpCopy.sort((a, b) => b.price - a.price));
+        break;
+      default:
+        applyFilter();
+        break;
+    }
+  };
+
+  useEffect(() => {
+    applyFilter();
+  }, [category, subCategory, search, showSearch]);
+
+  useEffect(() => {
+    sortProduct();
+  }, [sortType]);
   return (
     <div className="flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10 border-t">
-      <div className="min-w-60">
+      <div className="min-w-40">
         <p
           onClick={() => setShowFilter(!showFilter)}
           className="my-2 tex-xl flex items-center cursor-pointer gap-2"
@@ -136,9 +164,12 @@ const Collection = () => {
       </div>
 
       <div className="flex-1">
-        <div className="flex  justify-between text-base sm:text-2xl mb-4">
+        <div className="flex flex-col md:flex-row justify-between text-base sm:text-2xl mb-4">
           <Title text1={"ALL"} text2={"COLLECTIONS"} />
-          <select className="border-2 border-gray-300 text-sm px-2">
+          <select
+            onChange={(e) => setSortType(e.target.value)}
+            className="border-2 border-gray-300 text-sm px-2"
+          >
             <option className="" value="relevant">
               Sort by: Relevant
             </option>
