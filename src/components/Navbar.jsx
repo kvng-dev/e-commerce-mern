@@ -27,14 +27,14 @@ const Navbar = () => {
         </div>
       </Link>
 
-      <ul className="hidden sm:flex gap-5 text-sm text-gray-700">
+      <ul className="hidden sm:flex gap-10 text-sm text-gray-700">
         {links.map((link, i) => (
           <NavLink
             to={link.href}
             key={i}
             className="flex flex-col items-center gap-1"
           >
-            <p>{link.text}</p>
+            <p className="prata-regular">{link.text}</p>
             <hr className="w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
           </NavLink>
         ))}
@@ -51,11 +51,13 @@ const Navbar = () => {
         />
 
         <div className="group relative">
-          <img
-            src={assets.profile_icon}
-            className="w-5 cursor-pointer"
-            alt=""
-          />
+          <Link to="/login">
+            <img
+              src={assets.profile_icon}
+              className="w-5 cursor-pointer"
+              alt=""
+            />
+          </Link>
           <div className="group-hover:block hidden absolute dropdown-menu right-0 pt-4">
             <div className="flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-500 rounded">
               <p className="cursor-pointer hover:text-black">My Profile</p>
@@ -92,7 +94,7 @@ const Navbar = () => {
             <img src={assets.dropdown_icon} className="h-4 rotate-180" alt="" />
             <p>Back</p>
           </div>
-          <div className="mx-auto flex gap-8 items-center flex-col justify-center">
+          <div className="mx-aut py-32 flex gap-8 items-center flex-col justify-center">
             {links.map((link, i) => (
               <NavLink
                 to={link.href}
@@ -100,7 +102,7 @@ const Navbar = () => {
                 className=""
                 onClick={() => setVisible(!visible)}
               >
-                <span className="text-2xl flex py-1 justify-center">
+                <span className="text-2xl prata-regular flex py-1 justify-center">
                   {link.text}
                 </span>
               </NavLink>
